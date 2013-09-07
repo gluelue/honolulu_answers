@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909221406) do
+ActiveRecord::Schema.define(:version => 20130914020501) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -28,12 +28,23 @@ ActiveRecord::Schema.define(:version => 20130909221406) do
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
+  create_table "article_versions", :force => true do |t|
+    t.string   "item_type",  :null => false
+    t.integer  "item_id",    :null => false
+    t.string   "event",      :null => false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "article_versions", ["item_type", "item_id"], :name => "index_article_versions_on_item_type_and_item_id"
+
   create_table "articles", :force => true do |t|
     t.datetime "updated"
     t.string   "title"
     t.text     "content"
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.string   "content_type"
     t.text     "preview"
     t.integer  "contact_id"
@@ -54,10 +65,10 @@ ActiveRecord::Schema.define(:version => 20130909221406) do
     t.text     "content_main"
     t.text     "content_main_extra"
     t.text     "content_need_to_know"
-    t.string   "status",                  :default => "Draft"
     t.integer  "user_id"
     t.boolean  "published"
     t.boolean  "pending_review"
+    t.boolean  "draft"
   end
 
   add_index "articles", ["slug"], :name => "index_articles_on_slug"
